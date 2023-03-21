@@ -4,6 +4,7 @@ public class Game {
 
     private Space[][] grid;
     private static int numBombs;
+    private double bombChance; //0.00 - 1.00
 
     //no constructor
 
@@ -17,6 +18,17 @@ public class Game {
 
     }
 
+    private void setBombs() {
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[i].length; j++) {
+                if (Math.random() < bombChance) {
+                    grid[i][j] = new BombSpace(0,i,j);
+                } else {
+                    grid[i][j] = new Space(0,false,i,j);
+                }
+            }
+        }
+    }
 
 
 }
