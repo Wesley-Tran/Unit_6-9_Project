@@ -1,14 +1,17 @@
-public class Space {
+public class Space{
 
     private int numBombsNear;
     private int x;
     private int y;
+
+
 
     public Space(int numBombsNear, int x, int y) {
         this.numBombsNear = numBombsNear;
         this.x = x;
         this.y = y;
     }
+
 
 
     public int getNumBombsNear() {
