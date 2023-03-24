@@ -77,4 +77,43 @@ public class Game {
         space.setNumBombsNear(list.size());
     }
 
-}
+    public void checkEmptyNeighbors(Space space){
+        int currentX = space.getX();
+        int currentY = space.getY();
+        ArrayList<Space> list = new ArrayList<Space>();
+
+        if (isValidCoord(currentX-1,currentY)) { //left
+
+        }
+        if (isValidCoord(currentX-1,currentY+1)) { //top left
+
+        }
+        if (isValidCoord(currentX,currentY+1)) { //top
+
+        }
+        if (isValidCoord(currentX+1,currentY+1)) { //top right
+
+        }
+        if (isValidCoord(currentX+1,currentY)) { //right
+
+        }
+        if (isValidCoord(currentX+1,currentY+1)) { //bottom right
+
+        }
+        if (isValidCoord(currentX,currentY+1)) { //bottom
+
+        }
+        if (isValidCoord(currentX-1,currentY+1)) { //bottom left
+
+        }
+    }
+
+    private void openGrid(Space space){
+            if(space.getNumBombsNear()==0){
+                checkNeighbors(space,);
+
+            }
+        }
+    }
+
+
