@@ -12,32 +12,27 @@ public class Game {
 
     public void play() {
         System.out.println("Welcome to Bootleg Minesweeper");
-        System.out.println("What difficulty do you want\n> "); //medium 10x10
+        System.out.println("What difficulty do you want\n> "); //medium 11x11 //stay on odd numbers
 
-        grid = new Space[10][10];
+        numBombs = 10;
+        grid = new Space[11][11];
 
-        for(int i = 0; i < grid.length; i++){
-            for(int j = 0; j < grid[0].length; j++){
-
-            }
-            System.out.println();
+        boolean won = false;
+        while (!won) {
+            System.out.print("Which space do you want to start with");
+            System.out.print("Enter the x and y coordinate with a space");
         }
 
 
     }
 
 
-
-
-    public Space[][] getGrid(){
-        return grid;
-    }
-
     private void setBombs() {
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
                 if (Math.random() < bombChance) {
                     grid[i][j] = new BombSpace(0,i,j);
+                    bombChance -= 0.05;
                 } else {
                     grid[i][j] = new EmptySpace(0,i,j);
                 }
