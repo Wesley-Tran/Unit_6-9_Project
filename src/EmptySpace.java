@@ -6,6 +6,10 @@ public class EmptySpace extends Space {
         this.safe = true;
     }
 
+    public String toString(){
+        return "";
+    }
+
     public boolean isSafe() {
         return safe;
     }

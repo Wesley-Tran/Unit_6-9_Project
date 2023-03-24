@@ -7,6 +7,15 @@ public class BombSpace extends Space{
         this.safe = false;
     }
 
+
+    public String toString(){
+        return "B";
+    }
+
+    public void setToBomb(){
+
+    }
+
     public boolean isSafe() {
         return safe;
     }
