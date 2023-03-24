@@ -12,9 +12,9 @@ public class Game {
 
     public void play() {
         System.out.println("Welcome to Bootleg Minesweeper");
-        System.out.println("What difficulty do you want\n> "); //medium 10x10
+        System.out.println("What difficulty do you want\n> "); //medium 11x11 //stay on odd numbers
 
-        grid = new Space[10][10];
+        grid = new Space[11][11];
 
 
 
@@ -25,6 +25,7 @@ public class Game {
             for (int j = 0; j < grid[i].length; j++) {
                 if (Math.random() < bombChance) {
                     grid[i][j] = new BombSpace(0,i,j);
+                    bombChance -= 0.05;
                 } else {
                     grid[i][j] = new EmptySpace(0,i,j);
                 }
