@@ -14,11 +14,18 @@ public class Game {
         System.out.println("Welcome to Bootleg Minesweeper");
         System.out.println("What difficulty do you want\n> "); //medium 11x11 //stay on odd numbers
 
+        numBombs = 10;
         grid = new Space[11][11];
 
+        boolean won = false;
+        while (!won) {
+            System.out.print("Which space do you want to start with");
+            System.out.print("Enter the x and y coordinate with a space");
+        }
 
 
     }
+
 
     private void setBombs() {
         for (int i = 0; i < grid.length; i++) {
