@@ -1,10 +1,12 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Game {
     // to fill bombs; go through 2D array with a chance to set bomb to every space -> if row has bombs / lower chance of bomb
     // if not enough bombs, traverse again (backwards or forwards)
 
     private Space[][] grid;
+    private Space[][] displayGrid;
     private static int numBombs;
     private double bombChance; //0.00 - 1.00
 
@@ -14,13 +16,24 @@ public class Game {
         System.out.println("Welcome to Bootleg Minesweeper");
         System.out.println("What difficulty do you want\n> "); //medium 11x11 //stay on odd numbers
 
-        numBombs = 10;
-        grid = new Space[11][11];
+        numBombs = 10; //diffucult
+        grid = new Space[11][11]; //diff
+        displayGrid = new Space[11][11]; //diff
 
         boolean won = false;
         while (!won) {
-            System.out.print("Which space do you want to start with");
-            System.out.print("Enter the x and y coordinate with a space");
+            System.out.println("Select a space");
+            System.out.print("Enter the x and y coordinate with only a space in between: ");
+
+            Scanner scan = new Scanner(System.in);
+
+            String temp = scan.nextLine();
+
+            int x = Integer.parseInt(temp.substring(0,temp.indexOf(" ")));
+            int y = Integer.parseInt(temp.substring(temp.indexOf(" ")+1));
+
+
+
         }
 
 
@@ -117,7 +130,7 @@ public class Game {
 
     private void openGrid(Space space){
             if(space.getNumBombsNear()==0){
-                checkNeighbors(space,);
+                //checkNeighbors(space,);
 
             }
         }
