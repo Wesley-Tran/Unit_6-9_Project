@@ -20,8 +20,10 @@ public class Game {
         grid = new Space[11][11]; //diff
         displayGrid = new Space[11][11]; //diff
 
+        setBombs();
         boolean won = false;
         while (!won) {
+            printGrid();
             System.out.println("\n\nSelect a space");
             System.out.print("Enter the x and y coordinate with only a space in between: ");
 
@@ -59,12 +61,12 @@ public class Game {
                 if(grid[i][j] instanceof BombSpace){
                     System.out.print("B");
                 }else{
-                    System.out.print("E");
+                    System.out.print("E ");
                 }
             }
             System.out.println();
         }
-        }
+    }
 
 
 
@@ -79,10 +81,10 @@ public class Game {
                 }
             }
         }
-        for (int i = 0; i < grid.length; i++) {
-            for (int j = 0; j < grid[i].length; j++) {
+        for (Space[] spaces : grid) {
+            for (Space space : spaces) {
                 ArrayList<Space> neighborSpaces = new ArrayList<>();
-                checkNeighbors(grid[i][j],neighborSpaces);
+                checkNeighbors(space, neighborSpaces);
             }
         }
     }
@@ -156,7 +158,7 @@ public class Game {
         }
     }
 
-    private void openGrid(Space space){
+    private void openSpace(Space space){
             if(space.getNumBombsNear()==0){
                 //checkNeighbors(space,);
 
