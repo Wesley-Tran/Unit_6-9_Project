@@ -65,7 +65,7 @@ public class Game {
             System.out.println();
         }
         }
-    }
+
 
 
     private void setBombs() {
