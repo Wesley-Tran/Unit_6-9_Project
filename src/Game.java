@@ -127,35 +127,52 @@ public class Game {
         space.setNumBombsNear(list.size());
     }
 
-    public void checkEmptyNeighbors(Space space){
+    public ArrayList<Space> checkEmptyNeighbors(Space space){
         int currentX = space.getX();
         int currentY = space.getY();
         ArrayList<Space> list = new ArrayList<Space>();
 
         if (isValidCoord(currentX-1,currentY)) { //left
-
+            if(grid[currentX-1][currentY] instanceof EmptySpace){
+                list.add(grid[currentX-1][currentY]);
+            }
         }
         if (isValidCoord(currentX-1,currentY+1)) { //top left
-
+            if(grid[currentX-1][currentY+1] instanceof EmptySpace){
+                list.add(grid[currentX-1][currentY+1]);
+            }
         }
         if (isValidCoord(currentX,currentY+1)) { //top
-
+            if(grid[currentX][currentY+1] instanceof EmptySpace){
+                list.add(grid[currentX][currentY+1]);
+            }
         }
         if (isValidCoord(currentX+1,currentY+1)) { //top right
-
+            if(grid[currentX+1][currentY+1] instanceof EmptySpace){
+                list.add(grid[currentX+1][currentY+1]);
+            }
         }
         if (isValidCoord(currentX+1,currentY)) { //right
-
+            if(grid[currentX+1][currentY] instanceof EmptySpace){
+                list.add(grid[currentX+1][currentY]);
+            }
         }
-        if (isValidCoord(currentX+1,currentY+1)) { //bottom right
-
+        if (isValidCoord(currentX-1,currentY+1)) { //bottom right
+            if(grid[currentX-1][currentY+1] instanceof EmptySpace){
+                list.add(grid[currentX+1][currentY-1]);
+            }
         }
         if (isValidCoord(currentX,currentY+1)) { //bottom
-
+            if(grid[currentX][currentY-1] instanceof EmptySpace){
+                list.add(grid[currentX][currentY-1]);
+            }
         }
         if (isValidCoord(currentX-1,currentY+1)) { //bottom left
-
+            if(grid[currentX-1][currentY-1]instanceof EmptySpace){
+                list.add(grid[currentX-1][currentY-1]);
+            }
         }
+        return list;
     }
 
     private void openSpace(Space space){
