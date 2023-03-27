@@ -20,6 +20,8 @@ public class Game {
         grid = new Space[11][11]; //diff
         displayGrid = new Space[11][11]; //diff
 
+        setBombs();
+
         boolean won = false;
         while (!won) {
             System.out.println("\n\nSelect a space");
@@ -45,6 +47,7 @@ public class Game {
 
 
 
+
         }
     }
 
@@ -60,10 +63,10 @@ public class Game {
                 }
             }
         }
-        for (int i = 0; i < grid.length; i++) {
+        for (int i = 0; i < grid.length; i++) { // check and set for all the bombs near
             for (int j = 0; j < grid[i].length; j++) {
                 ArrayList<Space> neighborSpaces = new ArrayList<>();
-                checkNeighbors(grid[i][j],neighborSpaces);
+                setBombsNear(grid[i][j],neighborSpaces);
             }
         }
     }
@@ -75,7 +78,7 @@ public class Game {
         return false;
     }
 
-    private void checkNeighbors(Space space, ArrayList<Space> list) {
+    private void setBombsNear(Space space, ArrayList<Space> list) {
         int currentX = space.getX();
         int currentY = space.getY();
 
