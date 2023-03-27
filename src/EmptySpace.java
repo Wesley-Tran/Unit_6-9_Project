@@ -7,7 +7,7 @@ public class EmptySpace extends Space {
     }
 
     public String toString(){
-        return "";
+        return "" + getNumBombsNear();
     }
 
     public boolean isSafe() {

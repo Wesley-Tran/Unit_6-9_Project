@@ -12,7 +12,6 @@ public class Game {
 
     //no constructor
 
-
     public void play() {
         System.out.println("Welcome to Bootleg Minesweeper");
         System.out.println("What difficulty do you want\n> "); //medium 11x11 //stay on odd numbers
@@ -39,17 +38,14 @@ public class Game {
 //                temp = scan.nextLine();
 //            }
 
-//            while (temp.length() < 3 || !temp.contains(" ")) {
-//                System.out.println("Enter a valid coordinate");
-//                System.out.print("Enter the x and y coordinate with only a space in between: ");
-//                temp = scan.nextLine();
-//            }
-//
-//            int x = Integer.parseInt(temp.substring(0,temp.indexOf(" ")));
-//            int y = Integer.parseInt(temp.substring(temp.indexOf(" ")+1));
-            this.setBombs();
-            this.printGrid();
+            while (temp.length() < 3 || !temp.contains(" ")) {
+                System.out.println("Enter a valid coordinate");
+                System.out.print("Enter the x and y coordinate with only a space in between: ");
+                temp = scan.nextLine();
+            }
 
+            int x = Integer.parseInt(temp.substring(0,temp.indexOf(" ")));
+            int y = Integer.parseInt(temp.substring(temp.indexOf(" ")+1));
 
 
         }
@@ -68,7 +64,9 @@ public class Game {
             }
             System.out.println();
         }
+        }
     }
+
 
     private void setBombs() {
         for (int i = 0; i < grid.length; i++) {
