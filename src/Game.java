@@ -28,31 +28,24 @@ public class Game {
             Scanner scan = new Scanner(System.in);
 
             String temp = scan.nextLine();
+            int x;
+            int y;
 
-//            try { // https://stackoverflow.com/questions/19925047/how-to-check-the-input-is-an-integer-or-not-in-java
-//                int x = Integer.parseInt(temp.substring(0,temp.indexOf(" ")));
-//                int y = Integer.parseInt(temp.substring(temp.indexOf(" ")+1));
-//            } catch(NumberFormatException e){
-//                System.out.println("\n\nEnter a valid coordinate");
-//                System.out.print("Enter the x and y coordinate with only a space in between: ");
-//                temp = scan.nextLine();
-//            }
-
-            while (temp.length() < 3 || !temp.contains(" ")) {
-                System.out.println("Enter a valid coordinate");
-                System.out.print("Enter the x and y coordinate with only a space in between: ");
-                temp = scan.nextLine();
+            while (true) {
+                try { // https://stackoverflow.com/questions/19925047/how-to-check-the-input-is-an-integer-or-not-in-java
+                    x = Integer.parseInt(temp.substring(0, temp.indexOf(" ")));
+                    y = Integer.parseInt(temp.substring(temp.indexOf(" ") + 1));
+                    break;
+                } catch (Exception e) {
+                    System.out.println("\n\nEnter a valid coordinate");
+                    System.out.print("Enter the x and y coordinate with only a space in between: ");
+                    temp = scan.nextLine();
+                }
             }
-
-            int x = Integer.parseInt(temp.substring(0,temp.indexOf(" ")));
-            int y = Integer.parseInt(temp.substring(temp.indexOf(" ")+1));
-
 
 
 
         }
-
-
     }
 
 
