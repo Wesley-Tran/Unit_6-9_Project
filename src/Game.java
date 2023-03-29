@@ -16,11 +16,10 @@ public class Game {
         System.out.println("Welcome to Bootleg Minesweeper");
         System.out.println("What difficulty do you want\n> "); //medium 11x11 //stay on odd numbers
 
-        numBombs = 70; //diffuculty
+        numBombs = 10; //difficulty
         grid = new Space[11][11]; //diff
         displayGrid = new Space[11][11]; //diff
-        bombChance = 0.7; //default value diff
-
+        bombChance = 0.7;
         setBombs();
         boolean won = false;
         while (!won) {
@@ -80,16 +79,13 @@ public class Game {
 
 
     private void setBombs() {
-        while (numBombs > 0) {
-            for (int i = 0; i < grid.length; i++) {
-                for (int j = 0; j < grid[i].length; j++) {
-                    if (Math.random() < bombChance) {
-                        grid[i][j] = new BombSpace(0, i, j);
-                        bombChance -= 0.05;
-                        numBombs--;
-                    } else {
-                        grid[i][j] = new EmptySpace(0, i, j);
-                    }
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[i].length; j++) {
+                if (Math.random() < bombChance) {
+                    grid[i][j] = new BombSpace(0,i,j);
+                    bombChance -= 0.05;
+                } else {
+                    grid[i][j] = new EmptySpace(0,i,j);
                 }
             }
         }
