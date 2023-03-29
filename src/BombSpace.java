@@ -1,3 +1,5 @@
+import java.awt.*;
+
 public class BombSpace extends Space{
 
     private boolean safe;
@@ -9,7 +11,7 @@ public class BombSpace extends Space{
 
 
     public String toString(){
-        return "B";
+        return "" + Color.BLACK;
     }
 
     public void setToBomb(){

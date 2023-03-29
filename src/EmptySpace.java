@@ -1,3 +1,4 @@
+
 public class EmptySpace extends Space {
     private boolean safe;
 
