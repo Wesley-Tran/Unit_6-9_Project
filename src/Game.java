@@ -21,7 +21,6 @@ public class Game {
         displayGrid = new Space[11][11]; //diff
         bombChance = 0.7; //default value diff
 
-
         setBombs();
         boolean won = false;
         while (!won) {
@@ -87,6 +86,7 @@ public class Game {
                     if (Math.random() < bombChance) {
                         grid[i][j] = new BombSpace(0, i, j);
                         bombChance -= 0.05;
+                        numBombs--;
                     } else {
                         grid[i][j] = new EmptySpace(0, i, j);
                     }
