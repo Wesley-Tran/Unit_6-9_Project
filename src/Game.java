@@ -50,7 +50,23 @@ public class Game {
     }
 
     public void printGrid(){
+        System.out.print("   ");
+        for(int k = 1; k<grid.length+1; k++){
+            if(k<10){
+                System.out.print(k + " ");
+            }else{
+                System.out.print(k);
+            }
+
+        }
+        System.out.println();
         for(int i = 0; i < grid.length; i ++){
+            if(i<9){
+                System.out.print(i+1 + "  ");
+            }else{
+                System.out.print(i+1 + " ");
+            }
+
             for(int j = 0; j<grid[0].length; j++){
                 if(grid[i][j] instanceof BombSpace){
                     System.out.print("B ");
