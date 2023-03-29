@@ -19,7 +19,7 @@ public class Game {
         numBombs = 70; //diffuculty
         grid = new Space[11][11]; //diff
         displayGrid = new Space[11][11]; //diff
-        bombChance = 0.7; //default value diff
+        bombChance = 0.35; //default value diff
 
         setBombs();
         boolean won = false;
@@ -83,16 +83,19 @@ public class Game {
         while (numBombs > 0) {
             for (int i = 0; i < grid.length; i++) {
                 for (int j = 0; j < grid[i].length; j++) {
-                    if (Math.random() < bombChance) {
+                    if (Math.random() < bombChance && numBombs > 0) {
                         grid[i][j] = new BombSpace(0, i, j);
                         bombChance -= 0.05;
                         numBombs--;
-                    } else {
+                    } else if (grid[i][j] == null){
                         grid[i][j] = new EmptySpace(0, i, j);
                     }
                 }
+                bombChance = 0.35;
             }
+
         }
+        System.out.println(numBombs);
         for (Space[] spaces : grid) {
             for (Space space : spaces) {
                 ArrayList<Space> neighborSpaces = new ArrayList<>();
