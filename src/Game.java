@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class Game {
@@ -20,8 +21,7 @@ public class Game {
         numBombs = 70; //diffuculty
         grid = new Space[11][11]; //diff
         displayGrid = new Space[11][11]; //diff
-        //intialize displayGrid
-        for (int i = 0; i < displayGrid.length; i++) {
+        for (int i = 0; i < displayGrid.length; i++) { // initialize displayGrid
             for (int j = 0; j < displayGrid[i].length;j++) {
                 displayGrid[i][j] = new EmptySpace(0,i,j);
             }
@@ -44,8 +44,8 @@ public class Game {
             int y;
             while (true) { //to get the user input
                 try { // https://stackoverflow.com/questions/19925047/how-to-check-the-input-is-an-integer-or-not-in-java
-                    x = Integer.parseInt(temp.substring(0, temp.indexOf(" ")));
-                    y = Integer.parseInt(temp.substring(temp.indexOf(" ") + 1));
+                    x = Integer.parseInt(temp.substring(0, temp.indexOf(" "))) - 1; //minus 1 to adhere to indexing
+                    y = Integer.parseInt(temp.substring(temp.indexOf(" ") + 1)) - 1;
                     break;
                 } catch (NumberFormatException e) { //crashes when out of bounds - > not space
                     System.out.println("\n\nEnter a valid coordinate");
@@ -53,8 +53,14 @@ public class Game {
                     temp = scan.nextLine();
                 }
             }
-
-            openSpace(displayGrid[x][y]); //open the space
+            System.out.print("Do you want to flag the space or open it?\n> ");
+            temp = scan.nextLine();
+            while (!temp.equals("flag") && !temp.equals("open")) {
+                System.out.println("Enter either \"space\" or \"open\"\n> ");
+                temp = scan.nextLine();
+            }
+            userChoice(x,y,temp);
+            openSpace(displayGrid[x][y], checkEmptyNeighbors(displayGrid[x][y])); //open the space
             //if bomb end the game
                 //go through the grid and any space that is a bomb, set displaygrid to it
             //check the surroudings and open any spaces that have 0 bombs
@@ -113,6 +119,9 @@ public class Game {
         }
     }
 
+    public void userChoice(int x, int y, String choice) {
+
+    }
 
 
     private void setBombs() {
@@ -147,7 +156,7 @@ public class Game {
         return false;
     }
 
-    private void checkNeighbors(Space space, ArrayList<Space> list) {
+    private void checkNeighbors(Space space, ArrayList<Space> list) { //sets the number of bombs next to a space and sets it
         int currentX = space.getX();
         int currentY = space.getY();
 
