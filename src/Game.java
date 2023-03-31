@@ -17,7 +17,7 @@ public class Game {
         System.out.println("Welcome to Bootleg Minesweeper");
         System.out.println("What difficulty do you want\n> "); //medium 11x11 //stay on odd numbers
 
-        numBombs = 50; //diffuculty
+        numBombs = 70; //diffuculty
         grid = new Space[11][11]; //diff
         displayGrid = new Space[11][11]; //diff
         //intialize displayGrid
@@ -53,12 +53,11 @@ public class Game {
                     temp = scan.nextLine();
                 }
             }
-            
+
             openSpace(displayGrid[x][y]); //open the space
             //if bomb end the game
                 //go through the grid and any space that is a bomb, set displaygrid to it
             //check the surroudings and open any spaces that have 0 bombs
-
 
         }
 
@@ -234,15 +233,16 @@ public class Game {
         return list;
     }
 
-    private void openSpace(Space space){
-
-        for(int i = 0; i<checkEmptyNeighbors(space).size(); i++) {
-
+    private void openSpace(Space space,ArrayList<Space> list){
+        list = checkEmptyNeighbors(space);
+        if(space instanceof BombSpace){
+            displayGrid[space.getX()][space.getY()] = grid[space.getX()][space.getY()];
         }
-
+        ArrayList<Space> find = checkEmptyNeighbors(space);
+        for(int i =0; i<checkEmptyNeighbors(space).size(); i++){
+            displayGrid[find.get(i).getX()][find.get(i).getY()] = grid[space.getX()][space.getY()];
+        }
+        }
     }
-
-
-}
 
 
