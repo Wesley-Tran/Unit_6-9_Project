@@ -9,10 +9,9 @@ public class EmptySpace extends Space {
     }
 
     public String toString(){
-        if (getChosen()) {
-            return "" + getNumBombsNear();
-        }
-        return "_";
+
+        return "" + getNumBombsNear();
+
     }
 
     public boolean isSafe() {

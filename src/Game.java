@@ -252,6 +252,11 @@ public class Game {
             displayGrid[find.get(i).getX()][find.get(i).getY()] = grid[space.getX()][space.getY()];
         }
         }
+
+//        public void open(Space space){
+//            grid[space.getX(), space.getY()].setChosenTrue();
+//            displayGrid[space.getX(), space.getY()];
+//        }
     }
 
 
