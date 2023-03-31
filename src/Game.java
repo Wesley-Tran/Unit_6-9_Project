@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -19,11 +20,18 @@ public class Game {
         numBombs = 70; //diffuculty
         grid = new Space[11][11]; //diff
         displayGrid = new Space[11][11]; //diff
+        //intialize displayGrid
+        for (int i = 0; i < displayGrid.length; i++) {
+            for (int j = 0; j < displayGrid[i].length;j++) {
+                displayGrid[i][j] = new EmptySpace(0,i,j);
+            }
+        }
         bombChance = 0.35; //default value diff
 
         setBombs();
         boolean won = false;
         while (!won) {
+
             printGrid();
             System.out.println("\n\nSelect a space");
             System.out.print("Enter the x and y coordinate with only a space in between: ");
@@ -48,9 +56,9 @@ public class Game {
 
     }
 
-    public void printGrid(){
+    public void printGrid(){ //for user view
         System.out.print("   ");
-        for(int k = 1; k<grid.length+1; k++){
+        for(int k = 1; k<displayGrid.length+1; k++){
             if(k<10){
                 System.out.print(k + " ");
             }else{
@@ -59,19 +67,15 @@ public class Game {
 
         }
         System.out.println();
-        for(int i = 0; i < grid.length; i ++){
+        for(int i = 0; i < displayGrid.length; i ++){
             if(i<9){
                 System.out.print(i+1 + "  ");
             }else{
                 System.out.print(i+1 + " ");
             }
 
-            for(int j = 0; j<grid[0].length; j++){
-                if(grid[i][j] instanceof BombSpace){
-                    System.out.print("B ");
-                }else{
-                    System.out.print("E ");
-                }
+            for(int j = 0; j< displayGrid[0].length; j++){
+                System.out.print(displayGrid[i][j] + " ");
             }
             System.out.println();
         }

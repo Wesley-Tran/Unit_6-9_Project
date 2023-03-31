@@ -1,3 +1,4 @@
+import java.awt.*;
 
 public class EmptySpace extends Space {
     private boolean safe;
@@ -8,7 +9,7 @@ public class EmptySpace extends Space {
     }
 
     public String toString(){
-        return "" + getNumBombsNear();
+        return "_";
     }
 
     public boolean isSafe() {
