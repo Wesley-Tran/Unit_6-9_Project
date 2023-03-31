@@ -49,7 +49,7 @@ public class Game {
                     break;
                 } catch (NumberFormatException e) { //crashes when out of bounds - > not space
                     System.out.println("\n\nEnter a valid coordinate");
-                    System.out.print("Enter the x and y coordinate with only a space in between: ");
+                    System.out.print("Enter the x and y coordinate with only a space in between (x y): ");
                     temp = scan.nextLine();
                 }
             }
@@ -167,14 +167,14 @@ public class Game {
         if (isValidCoord(currentX+1,currentY)) { //right
             list.add(grid[currentX+1][currentY]);
         }
-        if (isValidCoord(currentX+1,currentY+1)) { //bottom right
-            list.add(grid[currentX+1][currentY+1]);
+        if (isValidCoord(currentX+1,currentY-1)) { //bottom right
+            list.add(grid[currentX+1][currentY-1]);
         }
-        if (isValidCoord(currentX,currentY+1)) { //bottom
-            list.add(grid[currentX][currentY+1]);
+        if (isValidCoord(currentX,currentY-1)) { //bottom
+            list.add(grid[currentX][currentY-1]);
         }
-        if (isValidCoord(currentX-1,currentY+1)) { //bottom left
-            list.add(grid[currentX-1][currentY+1]);
+        if (isValidCoord(currentX-1,currentY-1)) { //bottom left
+            list.add(grid[currentX-1][currentY-1]);
         }
         int count = 0;
         for (Space value : list) {
