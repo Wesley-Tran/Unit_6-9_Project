@@ -3,6 +3,7 @@ public class Space{
     private int numBombsNear;
     private int x;
     private int y;
+    private boolean chosen;
 
 
 
@@ -10,6 +11,15 @@ public class Space{
         this.numBombsNear = numBombsNear;
         this.x = x;
         this.y = y;
+        chosen = false;
+    }
+
+    public boolean getChosen(){
+        return chosen;
+    }
+
+    public void setChosenTrue(){
+        chosen = true;
     }
 
 

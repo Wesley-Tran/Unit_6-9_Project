@@ -1,3 +1,5 @@
+import java.awt.*;
+
 public class BombSpace extends Space{
 
     private boolean safe;
