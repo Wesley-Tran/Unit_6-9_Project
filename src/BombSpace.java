@@ -11,7 +11,7 @@ public class BombSpace extends Space{
 
 
     public String toString(){
-        return "" + Color.BLACK;
+        return "B";
     }
 
     public void setToBomb(){
