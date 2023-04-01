@@ -1,25 +1,19 @@
-import java.awt.*;
-
 public class BombSpace extends Space{
 
-    private boolean safe;
 
     public BombSpace(int numBombsNear, int x, int y) {
         super(numBombsNear,x, y);
-        this.safe = false;
     }
 
 
     public String toString(){
-        return "B";
+        if (isChosen()) {
+            return "B";
+        } else {return "_";}
     }
 
     public void setToBomb(){
 
-    }
-
-    public boolean isSafe() {
-        return safe;
     }
 
 

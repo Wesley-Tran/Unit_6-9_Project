@@ -30,9 +30,18 @@ public class Game {
 
         setBombs();
         boolean won = false;
+        //test code to be deleted
+        for (Space[] i : grid) {
+            for (Space j : i) {
+                j.setChosenTrue();
+            }
+        }
+        //test code to be deleted
         while (!won) {
+            //test code to be deleted
             testPrintGrid();
             System.out.println();
+            //test code to be deleted
             printGrid();
             System.out.println("\n\nSelect a space");
             System.out.print("Enter the x and y coordinate with only a space in between: ");
@@ -53,13 +62,30 @@ public class Game {
                     temp = scan.nextLine();
                 }
             }
+
             System.out.print("Do you want to flag the space or open it?\n> ");
             temp = scan.nextLine();
             while (!temp.equals("flag") && !temp.equals("open")) {
                 System.out.println("Enter either \"space\" or \"open\"\n> ");
                 temp = scan.nextLine();
             }
-            userChoice(x,y,temp);
+            System.out.println("x: " + x + " y: " + y);
+            System.out.println(grid[x][y]);
+            boolean first = true;
+            if (first) { //if its the first one we don't want them picking a bomb
+                grid[x][y] = new EmptySpace(0,x,y); //TO BE FIXED: set bomb after they pick the first space and
+                grid[x][y].setChosenTrue();//then make a 3x3 around the space they chose as open spaces
+                displayGrid[x][y] = grid[x][y];
+                for (int i = x-1; i < x + 1; i++) {
+                    for (int j = y-1; j < y + 1; j++) {
+                        ArrayList<Space> list = new ArrayList<>();
+                        try {checkNeighbors(grid[i][j], list);} catch (Exception ignored){}
+                    }
+                }
+                first = false;
+                System.out.println("bnruh");
+            }
+            userChoice(x,y,temp); //PROBLEM : x & y are both 1 too many and they are flipped
             openSpace(displayGrid[x][y], checkEmptyNeighbors(displayGrid[x][y])); //open the space
             //if bomb end the game
                 //go through the grid and any space that is a bomb, set displaygrid to it
@@ -195,8 +221,8 @@ public class Game {
     }
 
     public ArrayList<Space> checkEmptyNeighbors(Space space){
-        int currentX = space.getX();
-        int currentY = space.getY();
+        int currentX = space.getY();
+        int currentY = space.getX();
         ArrayList<Space> list = new ArrayList<Space>();
 
         if (isValidCoord(currentX-1,currentY)) { //left
@@ -226,12 +252,12 @@ public class Game {
         }
         if (isValidCoord(currentX-1,currentY+1)) { //bottom right
             if(grid[currentX-1][currentY+1] instanceof EmptySpace){
-                list.add(grid[currentX+1][currentY-1]);
+                list.add(grid[currentX+1][currentY+1]);
             }
         }
         if (isValidCoord(currentX,currentY+1)) { //bottom
-            if(grid[currentX][currentY-1] instanceof EmptySpace){
-                list.add(grid[currentX][currentY-1]);
+            if(grid[currentX][currentY+1] instanceof EmptySpace){
+                list.add(grid[currentX][currentY+1]);
             }
         }
         if (isValidCoord(currentX-1,currentY+1)) { //bottom left

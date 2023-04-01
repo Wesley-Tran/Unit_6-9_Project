@@ -14,7 +14,7 @@ public class Space{
         chosen = false;
     }
 
-    public boolean getChosen(){
+    public boolean isChosen(){
         return chosen;
     }
 

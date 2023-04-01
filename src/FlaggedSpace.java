@@ -6,5 +6,5 @@ public class FlaggedSpace extends Space{
         super(numBombsNear,x,y);
     }
 
-    public String toString() {return "" + Color.RED;}
+    public String toString() {return "F";}
 }
