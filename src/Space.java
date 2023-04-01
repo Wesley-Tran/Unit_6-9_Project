@@ -38,10 +38,6 @@ public class Space{
 
     public void setNumBombsNear(int numBombsNear) {this.numBombsNear = numBombsNear;}
 
-    @Override
-    public String toString() {
-        return "The space at " + x + ", " + y;
-    }
 
 
 }

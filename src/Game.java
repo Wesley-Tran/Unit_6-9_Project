@@ -10,7 +10,6 @@ public class Game {
     private Space[][] grid;
     private Space[][] displayGrid;
     private static int numBombs;
-    private double bombChance; //0.00 - 1.00
 
     //no constructor
 
@@ -27,7 +26,6 @@ public class Game {
                 displayGrid[i][j] = new EmptySpace(0,i,j);
             }
         }
-        bombChance = 0.35; //default value diff
 
         setBombs();
         boolean won = false;
@@ -79,8 +77,7 @@ public class Game {
                 displayGrid[x][y] = grid[x][y];
                 for (int i = x-1; i < x + 1; i++) {
                     for (int j = y-1; j < y + 1; j++) {
-                        ArrayList<Space> list = new ArrayList<>();
-                        try {checkNeighbors(grid[i][j], list);} catch (Exception ignored){}
+                        try {checkNeighbors(grid[i][j]);} catch (Exception ignored){}
                     }
                 }
                 first = false;
@@ -166,73 +163,67 @@ public class Game {
 
 
     private void setBombs() {
-        while (numBombs > 0) {
-            for (int i = 0; i < grid.length; i++) {
-                for (int j = 0; j < grid[i].length; j++) {
-                    if (Math.random() < bombChance && numBombs > 0) {
-                        grid[i][j] = new BombSpace(0, i, j);
-                        bombChance -= 0.05;
-                        numBombs--;
-                    } else if (grid[i][j] == null){
-                        grid[i][j] = new EmptySpace(0, i, j);
-                    }
-                }
-                bombChance = 0.35;
-            }
+        while (numBombs != 0) {
+            int row = (int) (Math.random() * (grid.length));
+            int column = (int) (Math.random() * (grid[0].length));
 
+            if (!(grid[row][column] instanceof BombSpace)) {
+                grid[row][column] = new BombSpace(0,column,row);
+                numBombs--;
+            }
         }
-        System.out.println(numBombs);
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[i].length; j++) {
+                if (!(grid[i][j] instanceof BombSpace)) {
+                    grid[i][j] = new EmptySpace(0,j,i);
+                }
+            }
+        }
         for (Space[] spaces : grid) {
             for (Space space : spaces) {
-                ArrayList<Space> neighborSpaces = new ArrayList<>();
-                checkNeighbors(space, neighborSpaces);
+                checkNeighbors(space);
             }
         }
     }
 
     private boolean isValidCoord(int x, int y) {
-        if (y > -1 && y < grid.length) {
-            return x > -1 && x < grid[0].length;
+        if (x > -1 && x < grid.length) {
+            return y > -1 && y < grid[0].length;
         }
         return false;
     }
 
-    private void checkNeighbors(Space space, ArrayList<Space> list) { //sets the number of bombs next to a space and sets it
+    private void checkNeighbors(Space space) { //sets the number of bombs near a space
         int currentX = space.getX();
         int currentY = space.getY();
+        ArrayList<Space> list = new ArrayList<>();
 
         if (isValidCoord(currentX-1,currentY)) { //left
-            list.add(grid[currentX-1][currentY]);
+            if (grid[currentX-1][currentY] instanceof BombSpace) {list.add(grid[currentX - 1][currentY]);}
         }
         if (isValidCoord(currentX-1,currentY-1)) { //top left
-            list.add(grid[currentX-1][currentY-1]);
+            if (grid[currentX-1][currentY-1] instanceof BombSpace) {list.add(grid[currentX - 1][currentY - 1]);}
         }
         if (isValidCoord(currentX,currentY-1)) { //top
-            list.add(grid[currentX][currentY-1]);
+            if (grid[currentX][currentY-1] instanceof BombSpace) {list.add(grid[currentX][currentY - 1]);}
         }
         if (isValidCoord(currentX+1,currentY-1)) { //top right
-            list.add(grid[currentX+1][currentY-1]);
+            if (grid[currentX+1][currentY-1] instanceof BombSpace) {list.add(grid[currentX+1][currentY-1]);}
         }
         if (isValidCoord(currentX+1,currentY)) { //right
-            list.add(grid[currentX+1][currentY]);
+            if (grid[currentX+1][currentY] instanceof BombSpace) {list.add(grid[currentX+1][currentY]);}
         }
         if (isValidCoord(currentX+1,currentY+1)) { //bottom right
-            list.add(grid[currentX+1][currentY+1]);
+            if (grid[currentX+1][currentY+1] instanceof BombSpace) {list.add(grid[currentX+1][currentY+1]);}
         }
         if (isValidCoord(currentX,currentY+1)) { //bottom
-            list.add(grid[currentX][currentY+1]);
+            if (grid[currentX][currentY+1] instanceof BombSpace) {list.add(grid[currentX][currentY+1]);}
         }
         if (isValidCoord(currentX-1,currentY+1)) { //bottom left
-            list.add(grid[currentX-1][currentY+1]);
-        }
-        int count = 0;
-        for (Space value : list) {
-            if (value instanceof BombSpace) {
-                count++;
-            }
+            if (grid[currentX-1][currentY+1] instanceof BombSpace) {list.add(grid[currentX-1][currentY+1]);}
         }
         System.out.println("x: " + space.getX() + "Y: " + space.getY());
-        space.setNumBombsNear(count);
+        space.setNumBombsNear(list.size());
     }
 
     private ArrayList<Space> checkEmptyNeighbors(Space space){
