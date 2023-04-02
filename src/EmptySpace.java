@@ -4,6 +4,7 @@ public class EmptySpace extends Space {
         super(numBombsNear,x, y);
     }
 
+    @Override
     public String toString(){
         if (isChosen()) {
             return "" + getNumBombsNear();

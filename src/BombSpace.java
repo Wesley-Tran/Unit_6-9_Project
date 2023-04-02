@@ -5,15 +5,11 @@ public class BombSpace extends Space{
     }
 
 
+    @Override
     public String toString(){
         if (isChosen()) {
             return "B";
         } else {return "_";}
     }
-
-    public void setToBomb(){
-
-    }
-
 
 }
