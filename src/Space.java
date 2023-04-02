@@ -28,6 +28,10 @@ public class Space{
         return numBombsNear;
     }
 
+    public void addNumBombsNear(){
+        numBombsNear++;
+    }
+
     public int getX() {
         return x;
     }

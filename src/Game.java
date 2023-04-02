@@ -82,14 +82,10 @@ public class   Game {
                     }
                 }
                 System.out.println("before setting #");
-                for (Space[] spaces : grid) {
-                    for (Space space : spaces) {
-                        checkNeighbors(space);
-                    }
-                }
-                System.out.println("set not first");
-                first = false;
+                setGridNums();
+
             }
+
             if (!userChoice(x,y,temp)) {
                 endGame(false);
                 break;
@@ -166,7 +162,9 @@ public class   Game {
     }
 
     private void endGame(boolean won) {
-        //stub
+        System.out.println("YOU CHOSE A BOMB SPACE, YOU LOST");
+        printGrid();
+
     }
 
 
@@ -194,6 +192,7 @@ public class   Game {
         if (x > -1 && x < grid.length) {
             return y > -1 && y < grid[0].length;
         }
+
         return false;
     } //check for bounds
 
@@ -259,24 +258,60 @@ public class   Game {
                 list.add(grid[currentX+1][currentY]);
             }
         }
-        if (isValidCoord(currentX+1,currentY+1)) { //bottom right
-            if(grid[currentX+1][currentY+1] instanceof EmptySpace){
-                list.add(grid[currentX+1][currentY+1]);
-            }
-        }
-        if (isValidCoord(currentX,currentY+1)) { //bottom
-            if(grid[currentX][currentY+1] instanceof EmptySpace){
-                list.add(grid[currentX][currentY+1]);
-            }
-        }
-        if (isValidCoord(currentX-1,currentY+1)) { //bottom left
-            if(grid[currentX-1][currentY+1]instanceof EmptySpace){
-                list.add(grid[currentX-1][currentY+1]);
-            }
-        }
         return list;
     } //returns list of emptySpace around
 
+
+    public void setGridNums(){
+        for(int i = 0; i< grid.length; i++){
+            for(int j =0; j< grid[0].length; j++){
+                if(grid[i][j] instanceof BombSpace){
+                    if (isValidCoord(i-1,j)) { //left
+                        if(grid[i-1][j] instanceof EmptySpace){
+                            grid[i-1][j].addNumBombsNear();
+                        }
+                    }
+                    if (isValidCoord(i+1,j)) { //right
+                        if(grid[i+1][j] instanceof EmptySpace){
+                            grid[i+1][j].addNumBombsNear();
+                        }
+                    }
+                    if (isValidCoord(i+1,j+1)) { // bottom right
+                        if(grid[i+1][j+1] instanceof EmptySpace){
+                            grid[i+1][j+1].addNumBombsNear();
+                        }
+                    }
+                    if (isValidCoord(i,j+1)) { // bottom
+                        if(grid[i][j+1] instanceof EmptySpace){
+                            grid[i][j+1].addNumBombsNear();
+                        }
+                    }
+                    if (isValidCoord(i-1,j+1)) { // bottom left
+                        if(grid[i-1][j+1] instanceof EmptySpace){
+                            grid[i-1][j+1].addNumBombsNear();
+                        }
+                    }
+
+                    if (isValidCoord(i-1,j-1)) { //top left
+                        if(grid[i-1][j-1] instanceof EmptySpace){
+                            grid[i-1][j-1].addNumBombsNear();
+                        }
+                    }
+                    if (isValidCoord(i,j-1)) { //top
+                        if(grid[i][j-1] instanceof EmptySpace){
+                            grid[i][j-1].addNumBombsNear();
+                        }
+                    }
+                    if (isValidCoord(i+1,j-1)) { //top right
+                        if(grid[i+1][j-1] instanceof EmptySpace){
+                            grid[i+1][j-1].addNumBombsNear();
+                        }
+                    }
+
+                }
+            }
+        }
+    }
     public ArrayList<Space> allNeighbors(Space space){
         int currentX = space.getX();
         int currentY = space.getY();
