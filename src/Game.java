@@ -16,12 +16,37 @@ public class   Game {
 
     public void play() {
         System.out.println("Welcome to Bootleg Minesweeper");
-        System.out.println("What difficulty do you want\n> "); //medium 11x11 //stay on odd numbers
-
+        System.out.println("What difficulty do you want\nEasy (5x5), Medium (7x7), Hard (11x11)\n> ");
+        while (true) {
+            String diff = scan.nextLine();
+            if (!diff.equalsIgnoreCase("easy") &&
+                !diff.equalsIgnoreCase("medium") &&
+                !diff.equalsIgnoreCase("hard") &&
+                !diff.equalsIgnoreCase("test")) {
+                System.out.println("Please enter a valid difficulty:\nEasy (7x7), Medium (11x11), Hard (13x13)\n> ");
+                continue;
+            }
+            switch (diff.toLowerCase()) {
+                case "easy":
+                    grid = new Space[7][7];
+                    displayGrid = new Space[7][7];
+                    break;
+                case "medium":
+                    grid = new Space[11][11];
+                    displayGrid = new Space[11][11];
+                    break;
+                case "hard":
+                    grid = new Space[13][13];
+                    displayGrid = new Space[13][13];
+                case "test":
+                    grid = new Space[5][5];
+                    displayGrid = new Space[5][5];
+                    break;
+            }
+            numBombs = (int) (grid.length * grid[0].length * ((double) 55 / 121));
+            break;
+        }
         boolean first = true;
-        numBombs = 25; //diffuculty
-        grid = new Space[11][11]; //diff
-        displayGrid = new Space[11][11]; //diff
         for (int i = 0; i < displayGrid.length; i++) { // initialize displayGrid
             for (int j = 0; j < displayGrid[i].length;j++) {
                 displayGrid[i][j] = new EmptySpace(0,i,j);
@@ -47,28 +72,12 @@ public class   Game {
             System.out.print("Enter the x and y coordinate with only a space in between: ");
 
             String temp = scan.nextLine();
-            int x;
-            int y;
-            while (true) { //to get the user input
-                try { // https://stackoverflow.com/questions/19925047/how-to-check-the-input-is-an-integer-or-not-in-java
-                    y = Integer.parseInt(temp.substring(0, temp.indexOf(" "))) - 1; //minus 1 to adhere to indexing
-                    x = Integer.parseInt(temp.substring(temp.indexOf(" ") + 1)) - 1;
-                    break;
-                } catch (NumberFormatException e) { //crashes when out of bounds - > not space
-                    System.out.println("\n\nEnter a valid coordinate");
-                    System.out.print("Enter the x and y coordinate with only a space in between (x y): ");
-                    temp = scan.nextLine();
-                }
-            }
+            String[] inputList = getUserInputs(temp);
+            int x = Integer.parseInt(inputList[0]);
+            int y = Integer.parseInt(inputList[1]);
+            temp = inputList[2];
 
-            System.out.print("Do you want to flag the space or open it?\n> ");
-            temp = scan.nextLine();
-            while (!temp.equalsIgnoreCase("flag") &&
-                   !temp.equalsIgnoreCase("open") &&
-                   !temp.equalsIgnoreCase("unflag")) {
-                System.out.println("Enter either \"space\" or \"open\"\n> ");
-                temp = scan.nextLine();
-            }
+
             if (first) { //if its the first one we don't want them picking a bomb
                 for (int i = x-1; i < x + 2; i++) {
                     for (int j = y-1; j < y + 2; j++) {
@@ -157,6 +166,43 @@ public class   Game {
             }
             System.out.println();
         }
+    }
+
+    /**
+     * Helper variable to get the user's coordinate and what they want to do
+     * @param temp The first user response that is passed in
+     * @return A string of the 3 responses, x coordinate, y coordinate, and the action
+     */
+    private String[] getUserInputs(String temp) {
+        int x;
+        int y;
+        while (true) { //to get the user input
+            try { // https://stackoverflow.com/questions/19925047/how-to-check-the-input-is-an-integer-or-not-in-java
+                y = Integer.parseInt(temp.substring(0, temp.indexOf(" "))) - 1; //minus 1 to adhere to indexing
+                x = Integer.parseInt(temp.substring(temp.indexOf(" ") + 1)) - 1;
+                if (x > -1 && x < grid.length) {
+                    if (y > -1 && y < grid[0].length) {
+                        break;
+                    }
+                }
+                System.out.println("Enter a coordinate within bounds");
+            } catch (NumberFormatException e) { //crashes when out of bounds - > not space
+                System.out.println("\n\nEnter a valid coordinate");
+                System.out.print("Enter the x and y coordinate with only a space in between x y: ");
+                temp = scan.nextLine();
+            }
+        }
+
+        System.out.print("Do you want to flag the space or open it?\n> ");
+        temp = scan.nextLine();
+        while (!temp.equalsIgnoreCase("flag") &&
+                !temp.equalsIgnoreCase("open") &&
+                !temp.equalsIgnoreCase("unflag")) {
+            System.out.println("Enter either \"space\" or \"open\"\n> ");
+            temp = scan.nextLine();
+        }
+
+        return new String[]{"" + x, "" + y, temp};
     }
 
     /**

@@ -6,7 +6,6 @@ public class Space{
     private boolean chosen;
 
 
-
     public Space(int numBombsNear, int x, int y) {
         this.numBombsNear = numBombsNear;
         this.x = x;
@@ -23,13 +22,8 @@ public class Space{
     }
 
 
-
     public int getNumBombsNear() {
         return numBombsNear;
-    }
-
-    public void addNumBombsNear(){
-        numBombsNear++;
     }
 
     public int getX() {
@@ -40,8 +34,9 @@ public class Space{
         return y;
     }
 
-    public void setNumBombsNear(int numBombsNear) {this.numBombsNear = numBombsNear;}
-
+    public void addNumBombsNear(){
+        numBombsNear++;
+    }
 
 
 }
