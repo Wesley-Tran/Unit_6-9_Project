@@ -16,32 +16,33 @@ public class   Game {
 
     public void play() {
         System.out.println("Welcome to Bootleg Minesweeper");
-        System.out.println("What difficulty do you want\nEasy (5x5), Medium (7x7), Hard (11x11)\n> ");
+        System.out.println("What difficulty do you want\nEasy (7x7), Medium (11x11), Hard (13x13)\n> ");
         while (true) {
             String diff = scan.nextLine();
             if (!diff.equalsIgnoreCase("easy") &&
                 !diff.equalsIgnoreCase("medium") &&
                 !diff.equalsIgnoreCase("hard") &&
                 !diff.equalsIgnoreCase("test")) {
-                System.out.println("Please enter a valid difficulty:\nEasy (7x7), Medium (11x11), Hard (13x13)\n> ");
+                System.out.print("Please enter a valid difficulty:\nEasy (7x7), Medium (11x11), Hard (13x13)\n> ");
                 continue;
             }
             switch (diff.toLowerCase()) {
-                case "easy":
+                case "easy" -> {
                     grid = new Space[7][7];
                     displayGrid = new Space[7][7];
-                    break;
-                case "medium":
+                }
+                case "medium" -> {
                     grid = new Space[11][11];
                     displayGrid = new Space[11][11];
-                    break;
-                case "hard":
+                }
+                case "hard" -> {
                     grid = new Space[13][13];
                     displayGrid = new Space[13][13];
-                case "test":
+                }
+                case "test" -> {
                     grid = new Space[5][5];
                     displayGrid = new Space[5][5];
-                    break;
+                }
             }
             numBombs = (int) (grid.length * grid[0].length * ((double) 55 / 121));
             break;
