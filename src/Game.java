@@ -18,7 +18,7 @@ public class Game {
         System.out.println("What difficulty do you want\n> "); //medium 11x11 //stay on odd numbers
 
         boolean first = true;
-        numBombs = 70; //diffuculty
+        numBombs = 55; //diffuculty
         grid = new Space[11][11]; //diff
         displayGrid = new Space[11][11]; //diff
         for (int i = 0; i < displayGrid.length; i++) { // initialize displayGrid
@@ -70,19 +70,26 @@ public class Game {
                 System.out.println("Enter either \"space\" or \"open\"\n> ");
                 temp = scan.nextLine();
             }
-            System.out.println(grid[x][y]);
             if (first) { //if its the first one we don't want them picking a bomb
-                grid[x][y] = new EmptySpace(0,x,y); //TO BE FIXED: set bomb after they pick the first space and
-                grid[x][y].setChosenTrue();     //then make a 3x3 around the space they chose as open spaces
-                displayGrid[x][y] = grid[x][y];
-                for (int i = x-1; i < x + 1; i++) {
-                    for (int j = y-1; j < y + 1; j++) {
-                        try {checkNeighbors(grid[i][j]);} catch (Exception ignored){}
+                for (int i = x-1; i < x + 2; i++) {
+                    for (int j = y-1; j < y + 2; j++) {
+                        if (isValidCoord(i,j)) {
+                            grid[i][j] = new EmptySpace(0, i, j);
+                            grid[i][j].setChosenTrue();
+                            displayGrid[i][j] = grid[i][j];
+                        }
                     }
                 }
+                System.out.println("ebfore setting #");
+                for (Space[] spaces : grid) {
+                    for (Space space : spaces) {
+                        checkNeighbors(space);
+                    }
+                }
+                System.out.println("set not first");
                 first = false;
             }
-            if (!userChoice(x,y,temp)) {  //PROBLEM : x & y are both 1 too many and they are flipped
+            if (!userChoice(x,y,temp)) {
                 endGame(false);
                 break;
             }
@@ -150,7 +157,7 @@ public class Game {
             if (grid[x][y] instanceof BombSpace) {
                 return false;
             }
-            openSpace(displayGrid[x][y], checkEmptyNeighbors(displayGrid[x][y]));
+            openSpace(grid[x][y], checkEmptyNeighbors(grid[x][y]));
         } else {
             displayGrid[x][y] = new FlaggedSpace(displayGrid[x][y].getNumBombsNear(),x,y);
         }
@@ -179,11 +186,7 @@ public class Game {
                 }
             }
         }
-        for (Space[] spaces : grid) {
-            for (Space space : spaces) {
-                checkNeighbors(space);
-            }
-        }
+
     }
 
     private boolean isValidCoord(int x, int y) {
@@ -191,9 +194,9 @@ public class Game {
             return y > -1 && y < grid[0].length;
         }
         return false;
-    }
+    } //check for bounds
 
-    private void checkNeighbors(Space space) { //sets the number of bombs near a space
+    private void checkNeighbors(Space space) {
         int currentX = space.getX();
         int currentY = space.getY();
         ArrayList<Space> list = new ArrayList<>();
@@ -222,11 +225,10 @@ public class Game {
         if (isValidCoord(currentX-1,currentY+1)) { //bottom left
             if (grid[currentX-1][currentY+1] instanceof BombSpace) {list.add(grid[currentX-1][currentY+1]);}
         }
-        System.out.println("x: " + space.getX() + "Y: " + space.getY());
         space.setNumBombsNear(list.size());
-    }
+    } //sets the number of bombs near a space
 
-    private ArrayList<Space> checkEmptyNeighbors(Space space){
+    public ArrayList<Space> checkEmptyNeighbors(Space space){
         int currentX = space.getX();
         int currentY = space.getY();
         ArrayList<Space> list = new ArrayList<Space>();
@@ -256,11 +258,9 @@ public class Game {
                 list.add(grid[currentX+1][currentY]);
             }
         }
-        if (isValidCoord(currentX-1,currentY+1)) { //bottom right
-            if(grid[currentX-1][currentY+1] instanceof EmptySpace){
+        if (isValidCoord(currentX+1,currentY+1)) { //bottom right
+            if(grid[currentX+1][currentY+1] instanceof EmptySpace){
                 list.add(grid[currentX+1][currentY+1]);
-                System.out.println("" + grid[currentX+1][currentY+1].getX());
-                System.out.println("" + grid[currentX+1][currentY+1].getY());
             }
         }
         if (isValidCoord(currentX,currentY+1)) { //bottom
@@ -269,29 +269,31 @@ public class Game {
             }
         }
         if (isValidCoord(currentX-1,currentY+1)) { //bottom left
-            if(grid[currentX-1][currentY-1]instanceof EmptySpace){
+            if(grid[currentX-1][currentY+1]instanceof EmptySpace){
                 list.add(grid[currentX-1][currentY+1]);
             }
         }
         return list;
-    }
+    } //returns list of emptySpace around
 
-    private void openSpace(Space space,ArrayList<Space> list){
-        list = checkEmptyNeighbors(space);
+    private void openSpace(Space space,ArrayList<Space> list){ //makes the space visible & surrounding spaces
         if(space instanceof BombSpace){
             displayGrid[space.getX()][space.getY()] = grid[space.getX()][space.getY()];
+            displayGrid[space.getX()][space.getY()].setChosenTrue();
         }
-        ArrayList<Space> find = checkEmptyNeighbors(space);
-        for (Space value : find) {
-            displayGrid[value.getX()][value.getY()] = grid[space.getX()][space.getY()];
-            displayGrid[value.getX()][value.getY()].setChosenTrue();
+        for (Space value : list) {
+            if (value.getNumBombsNear() == 0) {
+                for (Space i : checkEmptyNeighbors(value)) {
+                    i.setChosenTrue();
+                }
+            }
         }
-        }
+    }
 
 //        public void open(Space space){
 //            grid[space.getX(), space.getY()].setChosenTrue();
 //            displayGrid[space.getX(), space.getY()];
 //        }
-    }
+}
 
 
