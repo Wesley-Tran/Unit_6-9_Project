@@ -12,15 +12,9 @@ public class Space{
         this.y = y;
         chosen = false;
     }
-
     public boolean isChosen(){
         return chosen;
     }
-
-    public void setChosenTrue(){
-        chosen = true;
-    }
-
 
     public int getNumBombsNear() {
         return numBombsNear;
@@ -34,9 +28,14 @@ public class Space{
         return y;
     }
 
+    public void setChosenTrue(){
+        chosen = true;
+    }
+
     public void addNumBombsNear(){
         numBombsNear++;
     }
+
     public String toString(){
         return "x: " + x + " y: " + y;
     }
