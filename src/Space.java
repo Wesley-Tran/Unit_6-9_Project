@@ -37,6 +37,8 @@ public class Space{
     public void addNumBombsNear(){
         numBombsNear++;
     }
-
+    public String toString(){
+        return "" + getNumBombsNear();
+    }
 
 }
