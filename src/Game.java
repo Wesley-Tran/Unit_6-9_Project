@@ -16,7 +16,7 @@ public class   Game {
 
     public void play() {
         System.out.println("Welcome to Bootleg Minesweeper");
-        System.out.println("What difficulty do you want\nEasy (7x7), Medium (11x11), Hard (13x13)\n> ");
+        System.out.print("What difficulty do you want\nEasy (7x7), Medium (11x11), Hard (13x13)\n> ");
         while (true) {
             String diff = scan.nextLine();
             if (!diff.equalsIgnoreCase("easy") &&
@@ -90,7 +90,7 @@ public class   Game {
                         }
                     }
                 }
-                System.out.println("before setting #");
+
                 setGridNums();
                 first = false;
             }
@@ -99,16 +99,7 @@ public class   Game {
                 endGame(false);
                 break;
             }
-            won = true;
-            for (Space[] i : displayGrid) {
-                for (Space j : i) {
-                    if (!j.isChosen() && !(j instanceof BombSpace)) {
-                        won = false;
-                        break;
-                    }
-                }
-            }
-
+            won = determineWin();
         }
         endGame(true);
     }
@@ -187,7 +178,7 @@ public class   Game {
                     }
                 }
                 System.out.println("Enter a coordinate within bounds");
-            } catch (NumberFormatException e) { //crashes when out of bounds - > not space
+            } catch (Exception e) { //crashes when out of bounds - > not space
                 System.out.println("\n\nEnter a valid coordinate");
                 System.out.print("Enter the x and y coordinate with only a space in between x y: ");
                 temp = scan.nextLine();
@@ -216,7 +207,6 @@ public class   Game {
      */
     private boolean userChoice(int x, int y, String choice) {
         if (choice.equalsIgnoreCase("open")) {
-            System.out.println("x: " + x + "\ny: " + y);
             if (grid[x][y] instanceof BombSpace) {
                 displayGrid[x][y].setChosenTrue();
                 return false;
@@ -226,6 +216,17 @@ public class   Game {
             displayGrid[x][y] = new FlaggedSpace(displayGrid[x][y].getNumBombsNear(),x,y,displayGrid[x][y]);
         } else if (choice.equalsIgnoreCase("unflag")) {
             displayGrid[x][y] = ((FlaggedSpace) displayGrid[x][y]).getSpace();
+        }
+        return true;
+    }
+
+    private boolean determineWin() {
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j <grid[i].length; j++) {
+                if (grid[i][j] instanceof EmptySpace && !displayGrid[i][j].isChosen()) {
+                    return false;
+                }
+            }
         }
         return true;
     }
@@ -242,6 +243,7 @@ public class   Game {
             System.out.println("YOU CHOSE A BOMB SPACE, YOU LOST");
             printGrid();
         } else {
+            printGrid();
             System.out.println("You found all of the bombs!\nCongratulations!");
         }
 
@@ -426,7 +428,6 @@ public class   Game {
     private void openSpace(Space space){ //makes the space visible & surrounding spaces
         displayGrid[space.getX()][space.getY()] = grid[space.getX()][space.getY()];
         displayGrid[space.getX()][space.getY()].setChosenTrue();
-        System.out.println("getX: " + space.getX() + "\ngetY: " + space.getY());
         if (space.getNumBombsNear() == 0) {
             emptyOpen(space);
         }
