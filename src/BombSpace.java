@@ -4,7 +4,6 @@ public class BombSpace extends Space{
         super(numBombsNear,x, y);
     }
 
-
     @Override
     public String toString(){
         if (isChosen()) {
