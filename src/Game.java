@@ -6,7 +6,6 @@ public class   Game {
     private Space[][] displayGrid;
     private int numBombs;
     private final Scanner scan;
-    private ArrayList<String> exclude = new ArrayList<>();
 
     public Game() {
         scan = new Scanner(System.in);
@@ -287,7 +286,6 @@ public class   Game {
         if (x > -1 && x < grid.length) {
             return y > -1 && y < grid[0].length;
         }
-
         return false;
     }
 
@@ -391,7 +389,7 @@ public class   Game {
         displayGrid[space.getX()][space.getY()] = grid[space.getX()][space.getY()];
         displayGrid[space.getX()][space.getY()].setChosenTrue();
         if (space.getNumBombsNear() == 0) {
-            emptyOpen(displayGrid[space.getX()][space.getY()], exclude);
+            emptyOpen(displayGrid[space.getX()][space.getY()]);
         }
     }
 
@@ -400,35 +398,15 @@ public class   Game {
      * Opens all the surrounding spaces of spaces that have no bombs
      * @param space The space that is being checked to see if it has bombs near it or not
      */
-    private void emptyOpen (Space space, ArrayList<String> excludeList){
-        ArrayList<Space> extra = allNeighbors(space);
-        excludeList.add("" + space.getX() + "|" + space.getY());
-        for (Space value : extra) {
-            displayGrid[value.getX()][value.getY()] = grid[value.getX()][value.getY()];
-            displayGrid[value.getX()][value.getY()].setChosenTrue();
-            if (displayGrid[value.getX()][value.getY()].getNumBombsNear() == 0) { // below is the problem line
-                if (!displayGrid[value.getX()][value.getY()].isChosen() && !excludeList.contains("" + value.getX() + "|" + value.getY())) { //excludeList.contains("" + value.getX() + "|" + value.getY())
-                        System.out.println("x: " + value.getX() + " y: " + value.getY());
-                    }
-                    emptyOpen(displayGrid[value.getX()][value.getY()],excludeList);
-                }
+    private void emptyOpen (Space space){ //inspiration from https://stackoverflow.com/questions/19106911/recursive-minesweeper-0-fill
+        ArrayList<Space> list = allNeighbors(space);
+        for (Space obj : list) {
+            if (!displayGrid[obj.getX()][obj.getY()].isChosen()) {
+                openSpace(grid[obj.getX()][obj.getY()]);
             }
-
         }
-//        ArrayList<Space> extra = allNeighbors(space);
-//        excludeList.add(space);
-//        for (Space value : extra) {
-//            displayGrid[value.getX()][value.getY()].setChosenTrue();
-//            if (value.getNumBombsNear() == 0) {
-//                if (!excludeList.contains(value)) {
-//                    System.out.println("x: " + value.getX() + " y: " + value.getY());
-//                    //emptyOpen(grid[value.getX()][value.getY()],excludeList);
-//                }
-//            }
-//
-//        }
     }
-
+}
 
 //        public void open(Space space){
 //            grid[space.getX(), space.getY()].setChosenTrue();
