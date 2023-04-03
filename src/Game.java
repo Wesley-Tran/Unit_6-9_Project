@@ -85,13 +85,13 @@ public class   Game {
                     for (int j = y - 1; j <= y + 1; j++) {
                         if (isValidCoord(i, j)) {
                             grid[i][j] = new EmptySpace(0, i, j);
-                            grid[i][j].setChosenTrue();
-                            openSpace(grid[i][j]);
                             displayGrid[i][j] = grid[i][j];
+                            displayGrid[i][j].setChosenTrue();
                         }
                     }
                 }
                 setGridNums();
+                openSpace(displayGrid[x][y]);
                 first = false;
 
             }
@@ -391,7 +391,7 @@ public class   Game {
         displayGrid[space.getX()][space.getY()] = grid[space.getX()][space.getY()];
         displayGrid[space.getX()][space.getY()].setChosenTrue();
         if (space.getNumBombsNear() == 0) {
-            emptyOpen(space, exclude);
+            emptyOpen(displayGrid[space.getX()][space.getY()], exclude);
         }
     }
 
@@ -406,8 +406,10 @@ public class   Game {
         for (Space value : extra) {
             displayGrid[value.getX()][value.getY()] = grid[value.getX()][value.getY()];
             displayGrid[value.getX()][value.getY()].setChosenTrue();
-            if (displayGrid[value.getX()][value.getY()].getNumBombsNear() == 0) { // belwo is the problem line
-                if (!displayGrid[value.getX()][value.getY()].isChosen()) { //excludeList.contains("" + value.getX() + "|" + value.getY())
+            if (displayGrid[value.getX()][value.getY()].getNumBombsNear() == 0) { // below is the problem line
+                if (!displayGrid[value.getX()][value.getY()].isChosen() && !excludeList.contains("" + value.getX() + "|" + value.getY())) { //excludeList.contains("" + value.getX() + "|" + value.getY())
+                        System.out.println("x: " + value.getX() + " y: " + value.getY());
+                    }
                     emptyOpen(displayGrid[value.getX()][value.getY()],excludeList);
                 }
             }
@@ -432,7 +434,7 @@ public class   Game {
 //            grid[space.getX(), space.getY()].setChosenTrue();
 //            displayGrid[space.getX(), space.getY()];
 //        }
-}
+
 //    private void checkNeighbors(Space space) {
 //        int currentX = space.getX();
 //        int currentY = space.getY();
