@@ -6,6 +6,7 @@ public class   Game {
     private Space[][] displayGrid;
     private int numBombs;
     private final Scanner scan;
+    private ArrayList<String> exclude = new ArrayList<>();
 
     public Game() {
         scan = new Scanner(System.in);
@@ -16,7 +17,7 @@ public class   Game {
 
     public void play() {
         System.out.println("Welcome to Bootleg Minesweeper");
-        System.out.println("What difficulty do you want\nEasy (7x7), Medium (11x11), Hard (13x13)\n> ");
+        System.out.print("What difficulty do you want\nEasy (7x7), Medium (11x11), Hard (13x13)\n> ");
         while (true) {
             String diff = scan.nextLine();
             if (!diff.equalsIgnoreCase("easy") &&
@@ -80,8 +81,8 @@ public class   Game {
 
 
             if (first) { //if its the first one we don't want them picking a bomb
-                for (int i = x - 1; i < x + 2; i++) {
-                    for (int j = y - 1; j < y + 2; j++) {
+                for (int i = x - 1; i <= x + 1; i++) {
+                    for (int j = y - 1; j <= y + 1; j++) {
                         if (isValidCoord(i, j)) {
                             grid[i][j] = new EmptySpace(0, i, j);
                             grid[i][j].setChosenTrue();
@@ -90,7 +91,6 @@ public class   Game {
                         }
                     }
                 }
-
                 setGridNums();
                 first = false;
 
@@ -190,20 +190,9 @@ public class   Game {
         while (!temp.equalsIgnoreCase("flag") &&
                 !temp.equalsIgnoreCase("open") &&
                 !temp.equalsIgnoreCase("unflag")) {
-            System.out.println("Enter either \"space\" or \"open\"\n> ");
+            System.out.print("Enter either \"space\" or \"open\"\n> ");
             temp = scan.nextLine();
         }
-        for (int i = x-1; i < x + 2; i++) {
-            for (int j = y-1; j < y + 2; j++) {
-                if (isValidCoord(i,j)) {
-                    grid[i][j] = new EmptySpace(0, i, j);
-                    grid[i][j].setChosenTrue();
-                    openSpace(grid[i][j]);
-                    displayGrid[i][j] = grid[i][j];
-                }
-            }
-        }
-
         return new String[]{"" + x, "" + y, temp};
     }
 
@@ -230,6 +219,10 @@ public class   Game {
         return true;
     }
 
+    /**
+     * Checks the grid for to see if all the spaces are open
+     * @return Whether the user won or lost
+     */
     private boolean determineWin() {
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j <grid[i].length; j++) {
@@ -298,46 +291,6 @@ public class   Game {
         return false;
     }
 
-//    /**
-//     *
-//     * Creates a list of the surrounding spaces that don't have a bomb on them
-//     *
-//     * @param space space that we are checking around
-//     * @return An arrayList of all the surrounding spaces that don't have a bomb
-//     */
-//    public ArrayList<Space> checkEmptyNeighbors(Space space){
-//        int currentX = space.getX();
-//        int currentY = space.getY();
-//        ArrayList<Space> list = new ArrayList<Space>();
-//
-//        if (isValidCoord(currentX-1,currentY)) { //left
-//            if(grid[currentX-1][currentY] instanceof EmptySpace){
-//                list.add(grid[currentX-1][currentY]);
-//            }
-//        }
-//        if (isValidCoord(currentX-1,currentY-1)) { //top left
-//            if(grid[currentX-1][currentY-1] instanceof EmptySpace){
-//                list.add(grid[currentX-1][currentY-1]);
-//            }
-//        }
-//        if (isValidCoord(currentX,currentY-1)) { //top
-//            if(grid[currentX][currentY-1] instanceof EmptySpace){
-//                list.add(grid[currentX][currentY-1]);
-//            }
-//        }
-//        if (isValidCoord(currentX+1,currentY-1)) { //top right
-//            if(grid[currentX+1][currentY-1] instanceof EmptySpace){
-//                list.add(grid[currentX+1][currentY-1]);
-//            }
-//        }
-//        if (isValidCoord(currentX+1,currentY)) { //right
-//            if(grid[currentX+1][currentY] instanceof EmptySpace){
-//                list.add(grid[currentX+1][currentY]);
-//            }
-//        }
-//        return list;
-//    }
-
 
     /**
      * Goes through the list of spaces and if it is a Bomb,
@@ -388,7 +341,6 @@ public class   Game {
                             grid[i+1][j-1].addNumBombsNear();
                         }
                     }
-
                 }
             }
         }
@@ -439,7 +391,7 @@ public class   Game {
         displayGrid[space.getX()][space.getY()] = grid[space.getX()][space.getY()];
         displayGrid[space.getX()][space.getY()].setChosenTrue();
         if (space.getNumBombsNear() == 0) {
-            emptyOpen(space);
+            emptyOpen(space, exclude);
         }
     }
 
@@ -448,16 +400,31 @@ public class   Game {
      * Opens all the surrounding spaces of spaces that have no bombs
      * @param space The space that is being checked to see if it has bombs near it or not
      */
-    private void emptyOpen (Space space){
+    private void emptyOpen (Space space, ArrayList<String> excludeList){
         ArrayList<Space> extra = allNeighbors(space);
+        excludeList.add("" + space.getX() + "|" + space.getY());
         for (Space value : extra) {
-            if (!value.isChosen()) {
-                value.setChosenTrue();
-                if (value.getNumBombsNear() == 0) {
-                    emptyOpen(value);
+            displayGrid[value.getX()][value.getY()] = grid[value.getX()][value.getY()];
+            displayGrid[value.getX()][value.getY()].setChosenTrue();
+            if (displayGrid[value.getX()][value.getY()].getNumBombsNear() == 0) { // belwo is the problem line
+                if (!displayGrid[value.getX()][value.getY()].isChosen()) { //excludeList.contains("" + value.getX() + "|" + value.getY())
+                    emptyOpen(displayGrid[value.getX()][value.getY()],excludeList);
                 }
             }
+
         }
+//        ArrayList<Space> extra = allNeighbors(space);
+//        excludeList.add(space);
+//        for (Space value : extra) {
+//            displayGrid[value.getX()][value.getY()].setChosenTrue();
+//            if (value.getNumBombsNear() == 0) {
+//                if (!excludeList.contains(value)) {
+//                    System.out.println("x: " + value.getX() + " y: " + value.getY());
+//                    //emptyOpen(grid[value.getX()][value.getY()],excludeList);
+//                }
+//            }
+//
+//        }
     }
 
 
