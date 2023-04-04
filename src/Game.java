@@ -56,18 +56,18 @@ public class   Game {
 
         setBombs();
         boolean won = false;
-        //test code to be deleted
+        //test code to be deleted <>
         for (Space[] i : grid) {
             for (Space j : i) {
                 j.setChosenTrue();
             }
         }
-        //test code to be deleted
+        //test code to be deleted</>
         while (!won) {
-            //test code to be deleted
+            //test code to be deleted <>
             testPrintGrid();
             System.out.println();
-            //test code to be deleted
+            //test code to be deleted </>
             printGrid();
             System.out.println("\n\nSelect a space");
             System.out.print("Enter the x and y coordinate with only a space in between: ");
@@ -100,7 +100,7 @@ public class   Game {
             }
             won = determineWin();
             if (won) {
-                endGame(won);
+                endGame(true);
             }
         }
     }
