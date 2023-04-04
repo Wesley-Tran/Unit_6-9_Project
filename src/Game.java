@@ -246,7 +246,7 @@ public class   Game {
     private void endGame(boolean won) {
         if (!won) {
             System.out.println("YOU CHOSE A BOMB SPACE, YOU LOST");
-            printGrid();
+            testPrintGrid();
         } else {
             printGrid();
             System.out.println("You found all of the bombs!\nCongratulations!");
