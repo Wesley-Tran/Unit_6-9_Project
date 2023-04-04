@@ -99,8 +99,10 @@ public class   Game {
                 break;
             }
             won = determineWin();
+            if (won) {
+                endGame(won);
+            }
         }
-        endGame(true);
     }
 
     /**
