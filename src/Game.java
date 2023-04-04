@@ -47,7 +47,7 @@ public class   Game {
             numBombs = (int) (grid.length * grid[0].length * ((double) 35 / 121));
             break;
         }
-        boolean first = true;
+
         for (int i = 0; i < displayGrid.length; i++) { // initialize displayGrid
             for (int j = 0; j < displayGrid[i].length;j++) {
                 displayGrid[i][j] = new EmptySpace(0,i,j);
@@ -56,6 +56,7 @@ public class   Game {
 
         setBombs();
         boolean won = false;
+        boolean first = true;
         //test code to be deleted <>
         for (Space[] i : grid) {
             for (Space j : i) {
