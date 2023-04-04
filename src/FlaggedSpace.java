@@ -1,6 +1,5 @@
-import java.awt.*;
 
-public class FlaggedSpace extends Space {
+public class FlaggedSpace extends BombSpace {
 
     private Space space;
 
